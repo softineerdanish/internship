@@ -3,6 +3,7 @@ import { IFetchApiDetail } from '../models/IFetchApiDetail'
 import { ApiService } from '../services/ApiService'
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef,  } from '@mui/x-data-grid';
+import Component2 from './Component2';
 
 
 
@@ -84,6 +85,8 @@ const rows = apidetail.map((row) => ({
         disableRowSelectionOnClick
       />
     </Box>
+
+    <Component2 />
     </>
   )
 }
