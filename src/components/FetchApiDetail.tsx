@@ -4,6 +4,7 @@ import { ApiService } from '../services/ApiService'
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef,  } from '@mui/x-data-grid';
 import Component2 from './Component2';
+import Example from './Example';
 
 
 
@@ -87,6 +88,7 @@ const rows = apidetail.map((row) => ({
     </Box>
 
     <Component2 />
+    <Example />
     </>
   )
 }
