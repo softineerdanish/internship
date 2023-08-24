@@ -35,12 +35,15 @@ const InfoForm: React.FC = () => {
     e.preventDefault();
     localStorage.setItem("UserData", JSON.stringify(user.userDetail));
     navigate("/fetch-api-detail");
+    window.location.reload();
     console.log(user.userDetail);
   };
 
   return (
     <div>
+       <h1>From for saving the user <br /> detail in localStorage</h1>
       <Container maxWidth="sm">
+       
         <form onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
@@ -75,7 +78,7 @@ const InfoForm: React.FC = () => {
             required
           />
           <Button type="submit" fullWidth variant="contained" color="primary">
-            Next
+            Next Page
           </Button>
         </form>
       </Container>

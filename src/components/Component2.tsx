@@ -1,109 +1,136 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { departmentData } from "../services/data";
 
+import { Box } from "@mui/material";
 
 export default function App() {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
-  const [isChecked2, setIsChecked2] = useState<boolean>(false);
+  const [checked1, setChecked1] = React.useState([false, false]);
+  const [checked2, setChecked2] = React.useState([false, false, false]);
 
-  const onChange = () => {
-    if (isChecked) {
-      setIsChecked(false);
-    } else if (isChecked === false) {
-      setIsChecked(true);
-    } else setIsChecked(false);
+  const handleChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked1([event.target.checked, event.target.checked]);
   };
 
-  const onChange2 = () => {
-    if (isChecked2) {
-      setIsChecked2(false);
-    } else if (isChecked2 === false) {
-      setIsChecked2(true);
-    } else setIsChecked2(false);
+  const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked1([event.target.checked, checked1[1]]);
   };
 
-  useEffect(() => {
-    setIsChecked(isChecked);
-    setIsChecked2(isChecked2);
-  }, [isChecked, isChecked2]);
+  const handleChange3 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked1([checked1[0], event.target.checked]);
+  };
 
-  console.log(departmentData[0]);
+  const handleChange4 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked2([
+      event.target.checked,
+      event.target.checked,
+      event.target.checked,
+    ]);
+  };
+
+  const handleChange5 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked2([event.target.checked, checked2[1], checked2[2]]);
+  };
+
+  const handleChange6 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked2([checked2[0], event.target.checked, checked2[2]]);
+  };
+  const handleChange7 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked2([checked2[0], checked2[1], event.target.checked]);
+  };
+
+  const children1 = (
+    <Box sx={{ display: "flex", flexDirection: "column", ml: 3 }}>
+      <FormControlLabel
+        label={departmentData[0].sub_departments[0]}
+        control={<Checkbox checked={checked1[0]} onChange={handleChange2} />}
+      />
+      <FormControlLabel
+        label={departmentData[0].sub_departments[1]}
+        control={<Checkbox checked={checked1[1]} onChange={handleChange3} />}
+      />
+    </Box>
+  );
+  const children2 = (
+    <Box sx={{ display: "flex", flexDirection: "column", ml: 3 }}>
+      <FormControlLabel
+        label={departmentData[1].sub_departments[0]}
+        control={<Checkbox checked={checked2[0]} onChange={handleChange5} />}
+      />
+      <FormControlLabel
+        label={departmentData[1].sub_departments[1]}
+        control={<Checkbox checked={checked2[1]} onChange={handleChange6} />}
+      />
+      <FormControlLabel
+        label={departmentData[1].sub_departments[2]}
+        control={<Checkbox checked={checked2[2]} onChange={handleChange7} />}
+      />
+    </Box>
+  );
+
+  const CustomExpandIcon = () => {
+    return (
+      <Box
+        sx={{
+          ".Mui-expanded & > .collapsIconWrapper": {
+            display: "none",
+          },
+          ".expandIconWrapper": {
+            display: "none",
+          },
+          ".Mui-expanded & > .expandIconWrapper": {
+            display: "block",
+          },
+        }}
+      >
+        <div className="expandIconWrapper">-</div>
+        <div className="collapsIconWrapper">+</div>
+      </Box>
+    );
+  };
 
   return (
     <div className="App">
       <h1>Component 2nd</h1>
       <Accordion disableGutters sx={{ width: "25%" }}>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
+          expandIcon={<CustomExpandIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
           <FormControlLabel
+            label={departmentData[0].department}
             control={
               <Checkbox
-                // defaultChecked={isDepartmentChecked}
-                onChange={onChange}
-                checked={isChecked}
-                sx={{ pointerEvents: "none" }}
+                checked={checked1[0] && checked1[1]}
+                onChange={handleChange1}
               />
             }
-            label={departmentData[0].department}
           />
         </AccordionSummary>
-        <AccordionDetails>
-          {
-            <FormControlLabel
-              control={<Checkbox checked={isChecked} />}
-              label={departmentData[0].sub_departments[0]}
-            />
-          }
-          <br />
-          <FormControlLabel
-            control={<Checkbox checked={isChecked} />}
-            label={departmentData[0].sub_departments[1]}
-          />
-        </AccordionDetails>
+        <AccordionDetails>{children1}</AccordionDetails>
       </Accordion>
-
-      <Accordion disableGutters sx={{ width: "25%" }}>
+      <Accordion disableGutters sx={{ width: "25%" }} defaultExpanded>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
+          expandIcon={<CustomExpandIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
         >
           <FormControlLabel
+            label={departmentData[1].department}
             control={
               <Checkbox
-                onChange={onChange2}
-                checked={isChecked2}
-                sx={{ pointerEvents: "none" }}
+                checked={checked2[0] && checked2[1] && checked2[2]}
+                onChange={handleChange4}
               />
             }
-            label={departmentData[1].department}
           />
         </AccordionSummary>
-        <AccordionDetails>
-          <FormControlLabel
-            control={<Checkbox checked={isChecked2} />}
-            label={departmentData[1].sub_departments[0]}
-          />{" "}
-          <br />
-          <FormControlLabel
-            control={<Checkbox checked={isChecked2} />}
-            label={departmentData[1].sub_departments[1]}
-          />{" "}
-          <br />
-          <FormControlLabel
-            control={<Checkbox defaultChecked checked={isChecked2} />}
-            label={departmentData[1].sub_departments[2]}
-          />
-        </AccordionDetails>
+        <AccordionDetails>{children2}</AccordionDetails>
       </Accordion>
     </div>
   );
